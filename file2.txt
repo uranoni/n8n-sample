@@ -1,0 +1,87 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "path": "it-timesheet",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        -160
+      ],
+      "id": "fbf3a491-0f56-4d32-9d8a-a61eece82305",
+      "name": "GET 開啟問卷",
+      "webhookId": "360a2513-a5e8-405b-a0c7-86d4ebf96eed"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst submitUrl =\n  \"https://uranoni.app.n8n.cloud/webhook-test/it-timesheet-submit\";\n\nconst html = `<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>IT 每週工作填報</title>\n\n<style>\n* {\n  box-sizing: border-box;\n}\n\nbody {\n  font-family: \"Microsoft JhengHei\", Arial, sans-serif;\n  background: #f3f6fa;\n  margin: 0;\n  padding: 25px 12px;\n  color: #253047;\n}\n\n.container {\n  max-width: 680px;\n  margin: auto;\n  background: white;\n  border-radius: 16px;\n  padding: 28px;\n  box-shadow: 0 5px 28px rgba(0,0,0,0.08);\n}\n\nh1 {\n  text-align: center;\n  font-size: 25px;\n  margin: 0 0 8px;\n}\n\n.subtitle {\n  text-align: center;\n  color: #7b8798;\n  font-size: 13px;\n  margin-bottom: 28px;\n}\n\nh2 {\n  font-size: 17px;\n  margin-top: 26px;\n  border-bottom: 1px solid #edf0f4;\n  padding-bottom: 10px;\n}\n\nlabel {\n  display: block;\n  font-weight: bold;\n  font-size: 14px;\n  margin: 16px 0 7px;\n}\n\ninput, select, textarea {\n  width: 100%;\n  border: 1px solid #d7dce4;\n  border-radius: 8px;\n  padding: 12px;\n  font-size: 15px;\n  background: white;\n}\n\ninput:focus, select:focus, textarea:focus {\n  outline: none;\n  border-color: #2563eb;\n}\n\n.row {\n  display: flex;\n  gap: 12px;\n}\n\n.row > div {\n  flex: 1;\n  min-width: 0;\n}\n\nbutton {\n  cursor: pointer;\n  border: none;\n  border-radius: 8px;\n  padding: 12px 16px;\n  font-size: 15px;\n  font-weight: bold;\n}\n\n.add-btn {\n  width: 100%;\n  background: #e9f1ff;\n  color: #1d4ed8;\n  margin-top: 18px;\n}\n\n.submit-btn {\n  width: 100%;\n  background: #2563eb;\n  color: white;\n  margin-top: 20px;\n}\n\n.delete-btn {\n  background: #fee2e2;\n  color: #dc2626;\n  padding: 8px 12px;\n}\n\n.edit-btn {\n  background: #e5e7eb;\n  color: #374151;\n  padding: 8px 12px;\n}\n\n.item {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  gap: 12px;\n  border: 1px solid #e5e7eb;\n  border-radius: 10px;\n  padding: 14px;\n  margin-top: 10px;\n}\n\n.item-name {\n  font-weight: bold;\n  margin-bottom: 5px;\n}\n\n.item-info {\n  color: #64748b;\n  font-size: 13px;\n  overflow-wrap: anywhere;\n}\n\n.actions {\n  display: flex;\n  gap: 6px;\n  flex-shrink: 0;\n}\n\n.summary {\n  background: #f1f5f9;\n  padding: 18px;\n  border-radius: 10px;\n  margin-top: 22px;\n}\n\n.summary strong {\n  font-size: 25px;\n  color: #1d4ed8;\n}\n\n.small {\n  font-size: 12px;\n  color: #64748b;\n  margin-top: 6px;\n}\n\n.error {\n  color: #dc2626;\n  font-size: 13px;\n  margin-top: 10px;\n}\n\n@media (max-width: 520px) {\n  .container { padding: 18px; }\n  .row { flex-direction: column; gap: 0; }\n  .item { align-items: flex-start; }\n  .actions { flex-direction: column; }\n}\n</style>\n</head>\n\n<body>\n\n<div class=\"container\">\n\n<h1>IT 每週工作填報系統</h1>\n<div class=\"subtitle\">\n  請填寫本週工作項目與投入天數\n</div>\n\n<form id=\"timesheetForm\"\n      method=\"POST\"\n      action=\"${submitUrl}\"\n      accept-charset=\"UTF-8\">\n\n<label for=\"employeeId\">員工帳號</label>\n<input\n  id=\"employeeId\"\n  type=\"text\"\n  placeholder=\"例如 IT00123\"\n  autocomplete=\"off\"\n  maxlength=\"80\"\n  required\n>\n\n<label for=\"weekDate\">填報週次</label>\n<input\n  id=\"weekDate\"\n  type=\"date\"\n  required\n>\n\n<div class=\"small\">\n  選擇週內任一天，系統會自動計算 ISO 週次。\n</div>\n\n<div class=\"small\" id=\"weekLabel\"></div>\n\n<h2>新增工作項目</h2>\n\n<label for=\"activity\">工作項目</label>\n<select id=\"activity\">\n  <option value=\"交機\">交機</option>\n  <option value=\"電腦修復\">電腦修復</option>\n  <option value=\"設備安裝\">設備安裝</option>\n  <option value=\"帳號權限處理\">帳號權限處理</option>\n  <option value=\"系統維護\">系統維護</option>\n  <option value=\"ERP 專案\">ERP 專案</option>\n  <option value=\"MES 專案\">MES 專案</option>\n  <option value=\"資訊安全專案\">資訊安全專案</option>\n  <option value=\"其他\">其他</option>\n</select>\n\n<div class=\"row\">\n  <div>\n    <label for=\"workDays\">投入天數</label>\n    <input\n      id=\"workDays\"\n      type=\"number\"\n      min=\"0.01\"\n      max=\"7\"\n      step=\"0.01\"\n      value=\"0.2\"\n    >\n  </div>\n\n  <div>\n    <label for=\"description\">工作說明（選填）</label>\n    <input\n      id=\"description\"\n      type=\"text\"\n      maxlength=\"300\"\n      placeholder=\"例如：筆電交機\"\n    >\n  </div>\n</div>\n\n<button\n  type=\"button\"\n  id=\"addButton\"\n  class=\"add-btn\"\n  onclick=\"addItem()\">\n  ＋ 加入工作清單\n</button>\n\n<h2>本週工作清單</h2>\n\n<div id=\"itemList\">\n  <div class=\"small\">尚未新增工作項目</div>\n</div>\n\n<div class=\"summary\">\n  本週累積工作天數<br>\n  <strong id=\"totalDays\">0 天</strong>\n\n  <div class=\"small\">\n    換算工時：\n    <span id=\"totalHours\">0</span> 小時\n  </div>\n\n  <div class=\"small\">\n    目前以 1 天 = 8 小時計算。\n  </div>\n</div>\n\n<input\n  type=\"hidden\"\n  id=\"payload\"\n  name=\"payload\"\n>\n\n<div id=\"errorMessage\" class=\"error\"></div>\n\n<button\n  type=\"submit\"\n  id=\"submitButton\"\n  class=\"submit-btn\">\n  提交本週工作紀錄\n</button>\n\n</form>\n\n</div>\n\n<script>\n\"use strict\";\n\nvar items = [];\n\nfunction getISOWeek(dateString) {\n  if (!dateString) return \"\";\n\n  var d = new Date(dateString + \"T12:00:00Z\");\n\n  if (isNaN(d.getTime())) return \"\";\n\n  var day = d.getUTCDay() || 7;\n\n  d.setUTCDate(d.getUTCDate() + 4 - day);\n\n  var year = d.getUTCFullYear();\n\n  var first = new Date(Date.UTC(year, 0, 1, 12));\n\n  var week = Math.ceil(\n    (((d - first) / 86400000) + 1) / 7\n  );\n\n  return year + \"-W\" + String(week).padStart(2, \"0\");\n}\n\nfunction getWeekStart(dateString) {\n  var d = new Date(dateString + \"T12:00:00Z\");\n\n  if (isNaN(d.getTime())) return \"\";\n\n  var day = d.getUTCDay() || 7;\n\n  d.setUTCDate(d.getUTCDate() - day + 1);\n\n  return d.toISOString().slice(0, 10);\n}\n\nfunction updateWeek() {\n  var dateString = document.getElementById(\"weekDate\").value;\n  var week = getISOWeek(dateString);\n\n  document.getElementById(\"weekLabel\").textContent =\n    week ? \"系統週次：\" + week : \"\";\n}\n\nfunction showError(message) {\n  document.getElementById(\"errorMessage\").textContent =\n    message || \"\";\n}\n\nfunction addItem() {\n  var activity = document.getElementById(\"activity\").value;\n  var days = Number(document.getElementById(\"workDays\").value);\n  var description = document.getElementById(\"description\").value.trim();\n\n  if (!Number.isFinite(days) || days <= 0 || days > 7) {\n    showError(\"請輸入正確天數，範圍為 0.01 至 7 天。\");\n    return;\n  }\n\n  items.push({\n    activity: activity,\n    days: days,\n    description: description\n  });\n\n  document.getElementById(\"workDays\").value = \"0.2\";\n  document.getElementById(\"description\").value = \"\";\n\n  showError(\"\");\n  renderItems();\n}\n\nfunction deleteItem(index) {\n  items.splice(index, 1);\n  renderItems();\n}\n\nfunction editItem(index) {\n  var item = items[index];\n\n  document.getElementById(\"activity\").value = item.activity;\n  document.getElementById(\"workDays\").value = item.days;\n  document.getElementById(\"description\").value =\n    item.description || \"\";\n\n  items.splice(index, 1);\n  renderItems();\n\n  window.scrollTo(0, 0);\n}\n\nfunction renderItems() {\n  var list = document.getElementById(\"itemList\");\n\n  list.replaceChildren();\n\n  if (items.length === 0) {\n    var empty = document.createElement(\"div\");\n    empty.className = \"small\";\n    empty.textContent = \"尚未新增工作項目\";\n    list.appendChild(empty);\n  }\n\n  var total = 0;\n\n  items.forEach(function(item, index) {\n    total += item.days;\n\n    var wrapper = document.createElement(\"div\");\n    wrapper.className = \"item\";\n\n    var details = document.createElement(\"div\");\n\n    var name = document.createElement(\"div\");\n    name.className = \"item-name\";\n    name.textContent = item.activity;\n\n    var info = document.createElement(\"div\");\n    info.className = \"item-info\";\n    info.textContent =\n      item.days + \" 天\" +\n      (item.description ? \"｜\" + item.description : \"\");\n\n    details.appendChild(name);\n    details.appendChild(info);\n\n    var actions = document.createElement(\"div\");\n    actions.className = \"actions\";\n\n    var edit = document.createElement(\"button\");\n    edit.type = \"button\";\n    edit.className = \"edit-btn\";\n    edit.textContent = \"修改\";\n    edit.onclick = function() { editItem(index); };\n\n    var del = document.createElement(\"button\");\n    del.type = \"button\";\n    del.className = \"delete-btn\";\n    del.textContent = \"刪除\";\n    del.onclick = function() { deleteItem(index); };\n\n    actions.appendChild(edit);\n    actions.appendChild(del);\n\n    wrapper.appendChild(details);\n    wrapper.appendChild(actions);\n\n    list.appendChild(wrapper);\n  });\n\n  document.getElementById(\"totalDays\").textContent =\n    Number(total.toFixed(2)) + \" 天\";\n\n  document.getElementById(\"totalHours\").textContent =\n    Number((total * 8).toFixed(2));\n}\n\nfunction initialize() {\n  var now = new Date();\n\n  var localDate = new Date(\n    now.getTime() - now.getTimezoneOffset() * 60000\n  ).toISOString().slice(0, 10);\n\n  document.getElementById(\"weekDate\").value = localDate;\n\n  document.getElementById(\"weekDate\").addEventListener(\n    \"change\",\n    updateWeek\n  );\n\n  document.getElementById(\"timesheetForm\").addEventListener(\n    \"submit\",\n    function(event) {\n      var employeeId =\n        document.getElementById(\"employeeId\").value.trim();\n\n      var dateString =\n        document.getElementById(\"weekDate\").value;\n\n      if (!employeeId) {\n        event.preventDefault();\n        showError(\"請輸入員工帳號\");\n        return;\n      }\n\n      if (items.length === 0) {\n        event.preventDefault();\n        showError(\"請至少新增一筆工作項目\");\n        return;\n      }\n\n      var total = items.reduce(function(sum, item) {\n        return sum + item.days;\n      }, 0);\n\n      if (total > 7.000001) {\n        event.preventDefault();\n        showError(\"整週填報不可超過 7 天\");\n        return;\n      }\n\n      if (!getISOWeek(dateString)) {\n        event.preventDefault();\n        showError(\"請選擇有效週次\");\n        return;\n      }\n\n      var payload = {\n        employeeId: employeeId,\n        week: getISOWeek(dateString),\n        weekStart: getWeekStart(dateString),\n        items: items\n      };\n\n      document.getElementById(\"payload\").value =\n        JSON.stringify(payload);\n\n      document.getElementById(\"submitButton\").disabled = true;\n      document.getElementById(\"submitButton\").textContent =\n        \"資料送出中...\";\n    }\n  );\n\n  updateWeek();\n  renderItems();\n}\n\ninitialize();\n</script>\n\n</body>\n</html>`;\n\nreturn [{\n  json: {\n    html: html\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -160
+      ],
+      "id": "3e0ec205-aac1-4439-91bc-64e6b6f7a35f",
+      "name": "產生 HTML 問卷"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.html }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        -160
+      ],
+      "id": "064b86da-2848-4e90-99ca-e3d122a52405",
+      "name": "顯示 HTML"
+    }
+  ],
+  "connections": {
+    "GET 開啟問卷": {
+      "main": [
+        [
+          {
+            "node": "產生 HTML 問卷",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "產生 HTML 問卷": {
+      "main": [
+        [
+          {
+            "node": "顯示 HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "5173",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7444583923ab6d07308e3d58afab09530586c5c912bd07f7c843d479708a7d86"
+  }
+}

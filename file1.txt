@@ -1,0 +1,64 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "it-timesheet-submit ",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        192
+      ],
+      "id": "9dfd592c-437b-4bc2-acfa-3e6caf10eb01",
+      "name": "POST 接收表單",
+      "webhookId": "0f3675df-388b-41ef-95c8-dd53157a986e"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=<html lang=\"zh-Hant\"><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><body style=\"font-family:system-ui;padding:32px;max-width:560px;margin:auto\"><h2>✅ 已儲存本週工時</h2><p>資料已更新至 n8n Data Table。</p><p><a href=\"https://uranoni.app.n8n.cloud/webhook/it-timesheet\">返回工時問卷</a></p></body></html>",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/html; charset=utf-8"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        48,
+        208
+      ],
+      "id": "9424c9d6-0560-4675-8bb6-77b2b5dcae32",
+      "name": "回傳成功頁面"
+    }
+  ],
+  "connections": {
+    "POST 接收表單": {
+      "main": [
+        [
+          {
+            "node": "回傳成功頁面",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateId": "5173",
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7444583923ab6d07308e3d58afab09530586c5c912bd07f7c843d479708a7d86"
+  }
+}
